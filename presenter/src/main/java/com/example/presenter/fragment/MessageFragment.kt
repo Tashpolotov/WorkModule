@@ -8,16 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
-import com.example.data.repository.ChatRepositoryMock
-import com.example.domain.usecase.ChatUseCase
-import com.example.presenter.R
 import com.example.presenter.adapter.ChatAdapter
-import com.example.presenter.databinding.FragmentAccountBinding
 import com.example.presenter.databinding.FragmentMessageBinding
 import com.example.presenter.viewmodel.ChatViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -25,13 +19,14 @@ class MessageFragment : Fragment() {
 
     private lateinit var binding: FragmentMessageBinding
     private val adapter = ChatAdapter()
-    private val viewModel by viewModels<ChatViewModel>()
-    private val ChatRepositoryMock = ChatRepositoryMock()
+
+     private val viewModel by viewModels <ChatViewModel>()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentMessageBinding.inflate(inflater, container, false)
         return binding.root
     }

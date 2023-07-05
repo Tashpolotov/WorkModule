@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.model.ChatMessageModel
 import com.example.domain.model.ChatNameModel
+import com.example.domain.repository.ChatRepository
 import com.example.domain.usecase.ChatUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.GlobalScope
@@ -13,7 +14,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 @HiltViewModel
-class ChatViewModel @Inject constructor(private val chatUseCase: ChatUseCase) : ViewModel() {
+class ChatViewModel @Inject constructor(val chatUseCase: ChatUseCase) : ViewModel() {
+
 
     private val _chatName = MutableStateFlow<ChatNameModel?>(null)
     val chatName: StateFlow<ChatNameModel?> = _chatName.asStateFlow()
