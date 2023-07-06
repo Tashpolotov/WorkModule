@@ -1,4 +1,6 @@
 package com.example.domain.model
 
-class ChatViewState {
-}
+data class ChatViewState(
+    val chatName: ChatNameModel?,
+    val chatMessages: List<ChatMessageModel>
+)

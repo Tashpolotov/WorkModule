@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.example.presenter.adapter.ChatAdapter
 import com.example.presenter.databinding.FragmentMessageBinding
@@ -20,13 +21,12 @@ class MessageFragment : Fragment() {
     private lateinit var binding: FragmentMessageBinding
     private val adapter = ChatAdapter()
 
-     private val viewModel by viewModels <ChatViewModel>()
-
+    private val viewModel by viewModels<ChatViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         binding = FragmentMessageBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -35,19 +35,15 @@ class MessageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.rv.adapter = adapter
 
-        viewModel.viewModelScope.launch {
-            viewModel.chatName.collect { chatName ->
-                Log.e("MessageFragment", "Chat name: $chatName")
-                binding.tvName.text = chatName?.name
+        lifecycleScope.launchWhenStarted {
+            viewModel.chatStateFlow.collect { chatViewState ->
+                chatViewState.chatName?.let { chatName ->
+                    binding.tvName.text = chatName.name
+                }
+                adapter.submitList(chatViewState.chatMessages)
             }
         }
 
-        viewModel.viewModelScope.launch {
-            viewModel.chatMessage.collect { chatMessage ->
-                Log.e("MessageFragment", "Chat message: $chatMessage")
-                adapter.submitList(chatMessage)
-            }
-        }
         viewModel.getChatUseCase()
     }
 }

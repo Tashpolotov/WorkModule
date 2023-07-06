@@ -1,4 +1,11 @@
 package com.example.data.repository
 
-class AuthRepositoryMock {
+import com.example.domain.repository.AuthRepository
+
+class AuthRepositoryMock: AuthRepository {
+    override fun login(userName: String): Boolean {
+        return true
+    }
+
+
 }
